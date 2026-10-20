@@ -5,47 +5,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Grup Madan</title>
+
   <style>
     * { box-sizing: border-box; }
+
     body {
-      margin: 0; padding: 20px;
+      margin: 0;
+      padding: 20px;
       font-family: Arial, sans-serif;
-      background: #090d1a; color: #f4f7ff;
+      background: #090d1a;
+      color: #f4f7ff;
     }
-    main { max-width: 650px; margin: auto; }
+
+    main {
+      max-width: 650px;
+      margin: auto;
+    }
+
     .panel {
-      background: #11182b; border: 1px solid #293652;
-      border-radius: 14px; padding: 16px; margin: 15px 0;
+      background: #11182b;
+      border: 1px solid #293652;
+      border-radius: 14px;
+      padding: 16px;
+      margin: 15px 0;
     }
+
     h1 { color: #63e5ed; }
+
     input, button {
-      width: 100%; padding: 12px; margin: 6px 0;
-      border-radius: 9px; font-size: 15px;
+      width: 100%;
+      padding: 12px;
+      margin: 6px 0;
+      border-radius: 9px;
+      font-size: 15px;
     }
+
     input {
-      background: #090d1a; color: white;
+      background: #090d1a;
+      color: white;
       border: 1px solid #293652;
     }
+
     button {
-      border: 0; background: #55a6ff;
-      color: #071222; font-weight: bold;
+      border: 0;
+      background: #55a6ff;
+      color: #071222;
+      font-weight: bold;
+      cursor: pointer;
     }
-    button:disabled { opacity: .5; }
+
+    button:disabled {
+      opacity: .5;
+      cursor: wait;
+    }
+
     #messages {
-      height: 300px; overflow-y: auto;
-      background: #090d1a; padding: 10px;
-      border-radius: 10px; overflow-wrap: anywhere;
+      height: 300px;
+      overflow-y: auto;
+      background: #090d1a;
+      padding: 10px;
+      border-radius: 10px;
+      overflow-wrap: anywhere;
     }
+
     .message {
-      padding: 9px; margin: 8px 0;
-      background: #18233b; border-radius: 9px;
+      padding: 9px;
+      margin: 8px 0;
+      background: #18233b;
+      border-radius: 9px;
     }
+
     small, #status { color: #aab6cf; }
     .hidden { display: none; }
     a { color: #63e5ed; }
     code { overflow-wrap: anywhere; }
   </style>
 </head>
+
 <body>
 <main>
   <h1>🎮 Grup Madan</h1>
@@ -66,7 +102,6 @@
     <input id="groupCode" maxlength="40"
       placeholder="Masukkan kode grup">
     <button id="joinGroup">Gabung Grup</button>
-
     <p id="groupStatus"></p>
   </section>
 
@@ -74,12 +109,15 @@
     <h2 id="chatTitle">Chat Grup</h2>
     <p>Kode grup: <code id="currentCode"></code></p>
     <button id="copyCode">Salin Kode Grup</button>
+
     <div id="messages" aria-live="polite"></div>
+
     <form id="messageForm">
       <input id="messageText" maxlength="1000"
         placeholder="Tulis pesan..." required>
       <button id="sendButton" type="submit">Kirim Pesan</button>
     </form>
+
     <button id="leaveGroup">Tutup Chat</button>
   </section>
 
@@ -87,236 +125,6 @@
   <p><a href="index.html">← Kembali ke Madan Game Store</a></p>
 </main>
 
-<script type="module">
-import { initializeApp }
-  from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-import {
-  getAuth, GoogleAuthProvider, signInWithPopup,
-  onAuthStateChanged, signOut
-} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
-import {
-  getFirestore, collection, doc, getDoc, setDoc,
-  updateDoc, arrayUnion, addDoc, serverTimestamp,
-  query, orderBy, limit, onSnapshot
-} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAKNEYWlP0jasT1E1TLapm-BObJwPARMpI",
-  authDomain: "madan-game-store.firebaseapp.com",
-  projectId: "madan-game-store",
-  storageBucket: "madan-game-store.firebasestorage.app",
-  messagingSenderId: "340051395448",
-  appId: "1:340051395448:web:dc8ccd28da66c7de607e8d",
-  measurementId: "G-G9CZBZ8E97"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const provider = new GoogleAuthProvider();
-
-const $ = id => document.getElementById(id);
-let currentUser = null;
-let currentGroup = null;
-let stopMessages = null;
-let busy = false;
-
-function status(message) {
-  $("status").textContent = message;
-}
-function groupStatus(message) {
-  $("groupStatus").textContent = message;
-}
-function setBusy(value) {
-  busy = value;
-  document.querySelectorAll("button").forEach(button => {
-    button.disabled = value;
-  });
-}
-function showGroupPanel(show) {
-  $("groupPanel").classList.toggle("hidden", !show);
-}
-function showChat(show) {
-  $("chatPanel").classList.toggle("hidden", !show);
-}
-function stopChatListener() {
-  if (stopMessages) stopMessages();
-  stopMessages = null;
-}
-function showError(error) {
-  console.error(error);
-  status("Gagal: " + (error.code || error.message));
-}
-
-$("login").addEventListener("click", async () => {
-  try {
-    if (currentUser) await signOut(auth);
-    else await signInWithPopup(auth, provider);
-  } catch (error) { showError(error); }
-});
-
-onAuthStateChanged(auth, user => {
-  currentUser = user;
-  $("account").textContent = user
-    ? "Login sebagai " + (user.displayName || user.email)
-    : "Belum login.";
-  $("login").textContent = user ? "Keluar" : "Login dengan Google";
-  showGroupPanel(!!user);
-  if (!user) {
-    stopChatListener();
-    currentGroup = null;
-    showChat(false);
-    status("Login Google untuk menggunakan grup.");
-  } else {
-    status("Login berhasil. Buat grup atau masukkan kode grup.");
-  }
-});
-
-async function openGroup(groupId) {
-  if (!currentUser || busy) return;
-  setBusy(true);
-  stopChatListener();
-  try {
-    const ref = doc(db, "groups", groupId);
-    const snapshot = await getDoc(ref);
-    if (!snapshot.exists()) throw new Error("Grup tidak ditemukan.");
-
-    const group = snapshot.data();
-    if (!Array.isArray(group.memberUids)) {
-      throw new Error("Data anggota grup tidak valid.");
-    }
-
-    if (!group.memberUids.includes(currentUser.uid)) {
-      await updateDoc(ref, {
-        memberUids: arrayUnion(currentUser.uid)
-      });
-    }
-
-    currentGroup = { id: groupId, name: group.name };
-    $("chatTitle").textContent = group.name;
-    $("currentCode").textContent = groupId;
-    $("messages").replaceChildren();
-    showChat(true);
-    groupStatus("Berhasil membuka grup.");
-    status("Terhubung ke grup.");
-
-    const messagesQuery = query(
-      collection(db, "groups", groupId, "messages"),
-      orderBy("createdAt", "asc"),
-      limit(100)
-    );
-
-    stopMessages = onSnapshot(messagesQuery, snapshot => {
-      const box = $("messages");
-      box.replaceChildren();
-
-      snapshot.forEach(messageDoc => {
-        const message = messageDoc.data();
-        const item = document.createElement("div");
-        item.className = "message";
-
-        const name = document.createElement("strong");
-        name.textContent = message.name || "Pengguna";
-
-        const content = document.createElement("p");
-        content.textContent = message.text || "";
-
-        const time = document.createElement("small");
-        time.textContent = message.createdAt?.toDate
-          ? message.createdAt.toDate().toLocaleString("id-ID")
-          : "Baru saja";
-
-        item.append(name, content, time);
-        box.append(item);
-      });
-
-      box.scrollTop = box.scrollHeight;
-    }, showError);
-  } catch (error) {
-    showError(error);
-  } finally {
-    setBusy(false);
-  }
-}
-
-$("createGroup").addEventListener("click", async () => {
-  if (!currentUser || busy) return;
-  const name = $("groupName").value.trim();
-  if (!name || name.length > 40) {
-    groupStatus("Isi nama grup maksimal 40 karakter.");
-    return;
-  }
-
-  setBusy(true);
-  try {
-    const ref = doc(collection(db, "groups"));
-    await setDoc(ref, {
-      name,
-      ownerUid: currentUser.uid,
-      memberUids: [currentUser.uid],
-      createdAt: serverTimestamp()
-    });
-    $("groupName").value = "";
-    await openGroup(ref.id);
-    groupStatus("Grup dibuat. Bagikan kode grup kepada teman.");
-  } catch (error) {
-    showError(error);
-  } finally {
-    setBusy(false);
-  }
-});
-
-$("joinGroup").addEventListener("click", async () => {
-  const code = $("groupCode").value.trim();
-  if (!code || code.length > 40) {
-    groupStatus("Masukkan kode grup yang valid.");
-    return;
-  }
-  await openGroup(code);
-});
-
-$("messageForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  if (!currentUser || !currentGroup || busy) return;
-
-  const text = $("messageText").value.trim();
-  if (!text || text.length > 1000) return;
-
-  setBusy(true);
-  try {
-    await addDoc(collection(
-      db, "groups", currentGroup.id, "messages"
-    ), {
-      text,
-      uid: currentUser.uid,
-      name: currentUser.displayName || "Pengguna",
-      createdAt: serverTimestamp()
-    });
-    $("messageText").value = "";
-    status("Pesan terkirim.");
-  } catch (error) {
-    showError(error);
-  } finally {
-    setBusy(false);
-  }
-});
-
-$("copyCode").addEventListener("click", async () => {
-  if (!currentGroup) return;
-  try {
-    await navigator.clipboard.writeText(currentGroup.id);
-    status("Kode grup berhasil disalin.");
-  } catch {
-    status("Salin kode grup secara manual dari teks di atas.");
-  }
-});
-
-$("leaveGroup").addEventListener("click", () => {
-  stopChatListener();
-  currentGroup = null;
-  showChat(false);
-  status("Chat ditutup. Kamu masih login.");
-});
-</script>
+<script type="module" src="groups.js?v=2"></script>
 </body>
   </html>
