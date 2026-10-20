@@ -1,40 +1,32 @@
 
-/* ========================================
-   MADAN GAME STORE - STYLE UTAMA
-   ======================================== */
+:root {
+  --bg: #080b16;
+  --panel: #101629;
+  --panel-light: #151d34;
+  --text: #f5f7ff;
+  --muted: #a1abc4;
+  --blue: #55b9ff;
+  --purple: #a77bff;
+  --border: rgba(153, 174, 255, .15);
+}
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-:root {
-  --bg: #0b1020;
-  --card: #151d32;
-  --card-light: #1c2740;
-  --text: #f5f7ff;
-  --muted: #aab5cc;
-  --primary: #7c5cff;
-  --primary-hover: #6545ed;
-  --border: #2b3652;
-  --success: #39d98a;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 50% -20%, rgba(69, 76, 180, .19), transparent 55%),
+    var(--bg);
   color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.6;
-  min-height: 100vh;
-}
-
-img {
-  max-width: 100%;
 }
 
 a {
@@ -42,332 +34,627 @@ a {
   text-decoration: none;
 }
 
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-/* HEADER */
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  padding: 16px 20px;
-  background: rgba(11, 16, 32, 0.96);
+.navbar {
+  min-height: 76px;
+  padding: 14px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
+  background: rgba(8, 11, 22, .92);
 }
 
-header h1 {
-  font-size: clamp(22px, 5vw, 32px);
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+.brand-icon {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  color: #080b16;
+  font-size: 25px;
+  box-shadow: 0 0 24px rgba(85, 185, 255, .2);
+}
+
+.brand-accent {
+  color: var(--blue);
+}
+
+.brand small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.nav-link {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.nav-link:hover {
+  color: var(--blue);
+}
+
+.hero {
+  min-height: 460px;
+  padding: 65px 8%;
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  align-items: center;
+  gap: 30px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 11px;
   font-weight: 800;
-  color: #ffffff;
-  overflow-wrap: anywhere;
+  letter-spacing: 2px;
 }
 
-header p {
+.live-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: #74f5b0;
+  box-shadow: 0 0 10px #74f5b0;
+}
+
+.hero h1 {
+  margin: 18px 0;
+  font-size: clamp(38px, 5.4vw, 66px);
+  line-height: 1.08;
+  letter-spacing: -2px;
+}
+
+.hero h1 span,
+.section-heading h2 span {
+  color: var(--blue);
+}
+
+.hero-desc,
+.section-heading p,
+.contact > p {
+  max-width: 520px;
   color: var(--muted);
   font-size: 14px;
 }
 
-/* LINK DAN TOMBOL */
-
-button,
-.btn {
-  display: inline-block;
-  padding: 11px 16px;
-  border: none;
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: 16px;
+  padding: 13px 20px;
+  border: 0;
   border-radius: 10px;
-  background: var(--primary);
-  color: #ffffff;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  background: linear-gradient(100deg, var(--blue), #a2a4ff);
+  color: #080b16;
+  font-weight: 900;
+  font-size: 13px;
+  transition: transform .2s ease, filter .2s ease;
 }
 
-button:hover,
-.btn:hover {
-  background: var(--primary-hover);
+.primary-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
 }
 
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.hero-note {
+  margin-top: 23px;
+  color: var(--muted);
+  font-size: 11px;
 }
 
-/* KONTEN UTAMA */
-
-main {
-  width: min(1100px, 100%);
-  margin: 0 auto;
-  padding: 24px 16px 50px;
+.hero-note span {
+  color: var(--purple);
 }
 
-section {
-  margin-bottom: 32px;
-}
-
-section h2 {
-  font-size: 23px;
-  margin-bottom: 14px;
-}
-
-p {
-  overflow-wrap: anywhere;
-}
-
-/* AREA KATALOG */
-
-#products {
+.hero-art {
+  position: relative;
+  min-height: 300px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  align-items: stretch;
+  place-items: center;
+  isolation: isolate;
 }
 
-/* KARTU PRODUK */
+.orb {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(1px);
+}
 
-.product,
-.product-card,
-#products article {
+.orb-one {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle at 30% 25%, #5ed0ff, #6655e9 55%, #17122f 75%);
+  box-shadow: 0 0 90px rgba(100, 91, 255, .25);
+}
+
+.orb-two {
+  width: 290px;
+  height: 290px;
+  border: 1px solid rgba(124, 172, 255, .25);
+  transform: rotateX(65deg) rotateZ(-25deg);
+}
+
+.hero-symbol {
+  color: rgba(255, 255, 255, .9);
+  font-size: 150px;
+  font-weight: 1000;
+  line-height: 1;
+  text-shadow: 0 0 45px rgba(255, 255, 255, .3);
+}
+
+.floating-tag {
+  position: absolute;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: rgba(12, 17, 36, .88);
+  color: #e8edff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.tag-top {
+  top: 35px;
+  right: 0;
+}
+
+.tag-bottom {
+  bottom: 30px;
+  left: 0;
+}
+
+.section {
+  width: min(1120px, 88%);
+  margin: 0 auto;
+}
+
+.catalog {
+  padding-top: 65px;
+  padding-bottom: 55px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.section-heading h2,
+.contact h2 {
+  margin: 7px 0;
+  font-size: clamp(29px, 4vw, 42px);
+  line-height: 1.2;
+}
+
+.section-heading p {
+  margin-bottom: 0;
+}
+
+.catalog-count {
+  flex-shrink: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.catalog-count span {
+  color: var(--blue);
+  font-weight: 900;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  margin: 28px 0;
+}
+
+.search-box {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--panel);
+}
+
+.search-box > span {
+  color: var(--blue);
+  font-size: 25px;
+}
+
+.search-box input {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+}
+
+.search-box input::placeholder {
+  color: #78839f;
+}
+
+.toolbar select {
+  width: 225px;
+  max-width: 45%;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  outline: 0;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.product-card {
   min-width: 0;
   overflow: hidden;
-  background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+  border-radius: 15px;
+  background: linear-gradient(150deg, var(--panel-light), var(--panel) 70%);
+  transition: transform .22s ease, border-color .22s ease;
 }
 
-/* GAMBAR PRODUK */
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(85, 185, 255, .55);
+}
 
 .cover {
-  width: 100%;
-  height: 160px;
-  display: block;
   position: relative;
+  display: grid;
+  place-items: center;
+  height: 190px;
   overflow: hidden;
-  background: #171923;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(85, 185, 255, .22), transparent 65%),
+    #0c1122;
 }
 
 .cover img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: transform 0.25s ease;
 }
 
-.cover img:hover {
-  transform: scale(1.04);
+.cover-fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--blue);
+  font-size: 54px;
+  background: linear-gradient(135deg, rgba(85, 185, 255, .1), rgba(167, 123, 255, .16));
 }
 
-/* KONTEN KARTU */
+.product-info {
+  padding: 17px;
+}
 
-.product h3,
-.product-card h3,
-#products article h3 {
-  color: var(--text);
+.game-name {
+  margin: 0 0 7px;
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+
+.product-info h3 {
+  margin: 0 0 8px;
   font-size: 16px;
   line-height: 1.4;
-  padding: 12px 12px 4px;
-  overflow-wrap: anywhere;
 }
 
-.product p,
-.product-card p,
-#products article p {
+.description {
+  min-height: 42px;
+  margin: 0;
   color: var(--muted);
-  font-size: 13px;
-  padding: 4px 12px;
+  font-size: 12px;
+  line-height: 1.7;
 }
 
-.product .price,
-.product-card .price {
-  color: var(--success);
-  font-size: 17px;
-  font-weight: bold;
+.card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 17px;
+  padding-top: 13px;
+  border-top: 1px solid var(--border);
 }
 
-/* FORM TAMBAH PRODUK */
+.price {
+  color: #a6dfff;
+  font-size: 15px;
+  font-weight: 900;
+}
 
-form {
+.detail-label {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.empty-message {
+  grid-column: 1 / -1;
+  padding: 40px 15px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.info-strip {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 5px;
+  margin-bottom: 55px;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: linear-gradient(100deg, rgba(85, 185, 255, .08), rgba(167, 123, 255, .08));
+}
+
+.info-icon {
   display: grid;
-  gap: 12px;
-  width: 100%;
-  padding: 18px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  place-items: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(85, 185, 255, .12);
+  color: var(--blue);
+  font-size: 24px;
 }
 
-label {
-  display: block;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: bold;
+.info-strip h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
 }
 
-input,
-textarea,
-select {
-  width: 100%;
-  min-width: 0;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  outline: none;
-  background: #0e1628;
-  color: var(--text);
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: var(--primary);
-}
-
-input[type="file"] {
-  padding: 9px;
-}
-
-textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-input[type="checkbox"],
-input[type="radio"] {
-  width: auto;
-}
-
-/* PESAN STATUS */
-
-#status,
-.status,
-#message {
+.info-strip p {
+  margin: 0;
   color: var(--muted);
-  font-size: 14px;
-  overflow-wrap: anywhere;
+  font-size: 12px;
 }
 
-/* NAVIGASI DAN FOOTER */
+.contact {
+  padding: 45px 0 65px;
+  text-align: center;
+}
 
-nav {
+.contact > p {
+  margin: 10px auto;
+}
+
+.contact-note {
+  font-size: 10px !important;
+}
+
+.footer {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-nav a {
-  color: #d7d0ff;
-}
-
-footer {
-  padding: 24px 16px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 25px 6%;
   border-top: 1px solid var(--border);
-  text-align: center;
-  color: var(--muted);
-  font-size: 13px;
+  background: #060811;
 }
 
-/* TAMPILAN HP KECIL */
+.footer > p {
+  color: var(--muted);
+  font-size: 10px;
+}
 
-@media (max-width: 380px) {
-  #products {
+.footer-brand {
+  font-size: 12px;
+}
+
+.footer-brand .brand-icon {
+  width: 35px;
+  height: 35px;
+  font-size: 20px;
+}
+
+.disclaimer {
+  width: 100%;
+  margin: 0;
+}
+
+@media (min-width: 1100px) {
+  .products-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .hero {
     grid-template-columns: 1fr;
+    padding: 50px 7%;
   }
 
-  .cover {
+  .hero-art {
+    min-height: 250px;
+  }
+
+  .orb-one {
+    width: 200px;
     height: 200px;
   }
 
-  header {
-    padding: 12px;
+  .orb-two {
+    width: 235px;
+    height: 235px;
   }
 
-  main {
-    padding: 18px 12px 36px;
+  .hero-symbol {
+    font-size: 120px;
   }
-}
 
-/* TAMPILAN TABLET DAN KOMPUTER */
+  .tag-top {
+    right: 5%;
+  }
 
-@media (min-width: 700px) {
-  #products {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
+  .tag-bottom {
+    left: 5%;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
 
   .cover {
-    height: 190px;
+    height: 155px;
   }
 
-  main {
-    padding: 32px 24px 60px;
+  .product-info {
+    padding: 12px;
+  }
+
+  .product-info h3 {
+    font-size: 14px;
+  }
+
+  .price {
+    font-size: 12px;
+  }
+
+  .section {
+    width: 90%;
   }
 }
 
-@media (min-width: 1000px) {
-  #products {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+@media (max-width: 430px) {
+  .navbar {
+    padding: 12px 5%;
   }
+
+  .brand {
+    gap: 8px;
+    font-size: 12px;
   }
 
-/* Tombol Grup Madan */
-.madan-group-button {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-  min-height: 100px;
-  padding: 20px;
-  margin: 18px 0;
-  box-sizing: border-box;
-  background: linear-gradient(135deg, #11182b, #203958);
-  border: 1px solid #55a6ff;
-  border-radius: 18px;
-  color: #fff;
-  text-decoration: none;
+  .brand-icon {
+    width: 37px;
+    height: 37px;
+  }
+
+  .brand small {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .nav-link {
+    max-width: 100px;
+    font-size: 11px;
+    text-align: right;
+  }
+
+  .section-heading {
+    align-items: start;
+  }
+
+  .catalog-count {
+    margin-top: 20px;
+    padding: 7px;
+    font-size: 8px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+  }
+
+  .toolbar select {
+    width: 100%;
+    max-width: 100%;
+    min-height: 46px;
+  }
+
+  .cover {
+    height: 125px;
+  }
+
+  .description {
+    min-height: 55px;
+    font-size: 11px;
+  }
+
+  .card-bottom {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .info-strip {
+    align-items: start;
+    padding: 16px;
+  }
+
+  .footer {
+    align-items: start;
+    flex-direction: column;
+  }
 }
 
-.madan-group-button:hover {
-  border-color: #63e5ed;
-}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-.madan-group-icon {
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  flex: 0 0 64px;
-  font-size: 44px;
-  background: #183b52;
-  border-radius: 16px;
-}
-
-.madan-group-text {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 7px;
-}
-
-.madan-group-text strong {
-  font-size: 19px;
-}
-
-.madan-group-text small {
-  color: #aab6cf;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.madan-group-arrow {
-  font-size: 34px;
-  color: #63e5ed;
-    }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+   }
