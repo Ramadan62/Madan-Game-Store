@@ -5,36 +5,164 @@ const categories = [
   "Honkai Impact 3rd", "Mobile Legends", "Free Fire", "PUBG Mobile", "Game Lainnya"
 ];
 
+
 const sampleProducts = [
-  
-{
-  game: "Genshin Impact",
-  title: "Akun Genshin Impact",
-  price: 500000,
-  description: "Akun Genshin Impact siap dimainkan.",
-  photo: "genshin.png"
-},
-{
-  game: "Honkai: Star Rail",
-  title: "Akun Honkai: Star Rail",
-  price: 500000,
-  description: "Akun Honkai: Star Rail siap dimainkan.",
-  photo: "hsr.png"
-},
-{
-  game: "Zenless Zone Zero",
-  title: "Akun Zenless Zone Zero",
-  price: 500000,
-  description: "Akun Zenless Zone Zero siap dimainkan.",
-  photo: "zzz.png"
-},
-{
-  game: "Honkai Impact 3rd",
-  title: "Akun Honkai Impact 3rd",
-  price: 500000,
-  description: "Akun Honkai Impact 3rd siap dimainkan.",
-  photo: "hi3.png"
+  {
+    game: "Genshin Impact",
+    title: "Akun Genshin Impact",
+    price: 500000,
+    description: "Informasi akun Genshin Impact.",
+    photo: "genshin.png"
+  },
+  {
+    game: "Honkai: Star Rail",
+    title: "Akun Honkai: Star Rail",
+    price: 500000,
+    description: "Informasi akun Honkai: Star Rail.",
+    photo: "hsr.png"
+  },
+  {
+    game: "Zenless Zone Zero",
+    title: "Akun Zenless Zone Zero",
+    price: 500000,
+    description: "Informasi akun Zenless Zone Zero.",
+    photo: "zzz.png"
+  },
+  {
+    game: "Honkai Impact 3rd",
+    title: "Akun Honkai Impact 3rd",
+    price: 500000,
+    description: "Informasi akun Honkai Impact 3rd.",
+    photo: "hi3.png"
+  },
+  {
+    game: "Mobile Legends: Bang Bang",
+    title: "Akun Mobile Legends",
+    price: 300000,
+    description: "Informasi akun Mobile Legends.",
+    photo: "ml.png"
+  },
+  {
+    game: "Free Fire",
+    title: "Akun Free Fire",
+    price: 300000,
+    description: "Informasi akun Free Fire.",
+    photo: "ff.png"
+  },
+  {
+    game: "PUBG Mobile",
+    title: "Akun PUBG Mobile",
+    price: 300000,
+    description: "Informasi akun PUBG Mobile.",
+    photo: "pubg.png"
+  },
+  {
+    game: "Game Lainnya",
+    title: "Akun Game Favorit",
+    price: 200000,
+    description: "Informasi akun game favorit lainnya.",
+    photo: "favorite.png"
+  }
+];
+
+let products = [...sampleProducts];
+
+const productContainer = document.getElementById("products");
+const searchInput = document.getElementById("search");
+const filterInput = document.getElementById("filter");
+
+function formatPrice(price) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0
+  }).format(price);
 }
+
+function renderProducts() {
+  if (!productContainer) return;
+
+  const searchText = searchInput
+    ? searchInput.value.toLowerCase().trim()
+    : "";
+
+  const selectedGame = filterInput
+    ? filterInput.value
+    : "all";
+
+  const filteredProducts = products.filter(product => {
+    const matchesSearch =
+      product.title.toLowerCase().includes(searchText) ||
+      product.game.toLowerCase().includes(searchText) ||
+      product.description.toLowerCase().includes(searchText);
+
+    const matchesGame =
+      selectedGame === "all" ||
+      product.game === selectedGame;
+
+    return matchesSearch && matchesGame;
+  });
+
+  productContainer.innerHTML = "";
+
+  if (filteredProducts.length === 0) {
+    productContainer.innerHTML =
+      '<p class="empty-message">Game atau akun tidak ditemukan.</p>';
+    return;
+  }
+
+  filteredProducts.forEach(product => {
+    const card = document.createElement("article");
+    card.className = "product-card";
+
+    const cover = document.createElement("div");
+    cover.className = "cover";
+
+    const img = document.createElement("img");
+    img.src = product.photo || "favorite.png";
+    img.alt = product.game;
+    img.loading = "lazy";
+
+    img.onerror = function () {
+      this.style.display = "none";
+      cover.textContent = "🎮";
+    };
+
+    cover.appendChild(img);
+
+    const details = document.createElement("div");
+    details.className = "product-info";
+
+    const game = document.createElement("p");
+    game.className = "game-name";
+    game.textContent = product.game;
+
+    const title = document.createElement("h3");
+    title.textContent = product.title;
+
+    const description = document.createElement("p");
+    description.className = "description";
+    description.textContent = product.description;
+
+    const price = document.createElement("p");
+    price.className = "price";
+    price.textContent = formatPrice(product.price);
+
+    details.append(game, title, description, price);
+    card.append(cover, details);
+    productContainer.appendChild(card);
+  });
+}
+
+if (searchInput) {
+  searchInput.addEventListener("input", renderProducts);
+}
+
+if (filterInput) {
+  filterInput.addEventListener("change", renderProducts);
+}
+
+renderProducts();
   ];
 let products = [...sampleProducts];
 let activeCategory = "Semua";
