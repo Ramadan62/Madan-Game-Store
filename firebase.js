@@ -5,7 +5,8 @@ import {
   GoogleAuthProvider,
   signInWithRedirect,
   getRedirectResult,
-  onAuthStateChanged
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -18,27 +19,43 @@ const firebaseConfig = {
   measurementId: "G-G9CZBZ8E97"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-const loginBtn = document.getElementById("loginBtn");
+const profileBox = document.getElementById("profileBox");
+const profilePhoto = document.getElementById("profilePhoto");
+const profileName = document.getElementById("profileName");
+const profileEmail = document.getElementById("profileEmail");
 
 loginBtn.addEventListener("click", async () => {
   try {
-    await signInWithRedirect(auth, provider);
+    if (auth.currentUser) {
+      await signOut(auth);
+    } else {
+      await signInWithRedirect(auth, provider);
+    }
   } catch (error) {
-    alert("Login gagal: " + error.code + " — " + error.message);
+    alert("Terjadi kesalahan: " + error.message);
   }
 });
 
 getRedirectResult(auth).catch(error => {
-  alert("Login gagal: " + error.code + " — " + error.message);
+  alert("Login gagal: " + error.message);
 });
 
 onAuthStateChanged(auth, user => {
   if (user) {
-    loginBtn.textContent = "Login: " + (user.displayName || user.email);
+    profileBox.style.display = "flex";
+    profileName.textContent = user.displayName || "Pengguna";
+    profileEmail.textContent = user.email || "Email tidak tersedia";
+
+    if (user.photoURL) {
+      profilePhoto.src = user.photoURL;
+      profilePhoto.style.display = "block";
+    } else {
+      profilePhoto.style.display = "none";
+    }
+
+    loginBtn.textContent = "Keluar";
   } else {
+    profileBox.style.display = "none";
     loginBtn.textContent = "Login Google";
   }
 });
