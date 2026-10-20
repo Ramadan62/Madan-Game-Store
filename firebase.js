@@ -41,8 +41,6 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 
-});
-
 onAuthStateChanged(auth, user => {
   if (user) {
     profileBox.style.display = "flex";
