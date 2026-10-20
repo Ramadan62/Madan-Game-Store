@@ -33,3 +33,11 @@ async function loginGoogle() {
 
 // Sediakan fungsi untuk dipanggil dari index.html
 window.loginGoogle = loginGoogle;
+
+const loginBtn = document.getElementById("loginBtn");
+
+if (loginBtn) {
+  loginBtn.addEventListener("click", () => {
+    loginGoogle();
+  });
+}
