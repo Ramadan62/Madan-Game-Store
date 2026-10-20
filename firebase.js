@@ -3,7 +3,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebas
 import {
   getAuth,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithRedirect,
+  getRedirectResult,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -18,26 +20,25 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
-
-// Fungsi login Google
-async function loginGoogle() {
-  try {
-    const result = await signInWithPopup(auth, googleProvider);
-    alert("Berhasil login sebagai " + result.user.displayName);
-  } catch (error) {
-    console.error("Login gagal:", error);
-    alert("Login gagal: " + error.message);
-  }
-}
-
-// Sediakan fungsi untuk dipanggil dari index.html
-window.loginGoogle = loginGoogle;
-
+const provider = new GoogleAuthProvider();
 const loginBtn = document.getElementById("loginBtn");
 
-if (loginBtn) {
-  loginBtn.addEventListener("click", () => {
-    loginGoogle();
-  });
-}
+loginBtn.addEventListener("click", async () => {
+  try {
+    await signInWithRedirect(auth, provider);
+  } catch (error) {
+    alert("Login gagal: " + error.code + " — " + error.message);
+  }
+});
+
+getRedirectResult(auth).catch(error => {
+  alert("Login gagal: " + error.code + " — " + error.message);
+});
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    loginBtn.textContent = "Login: " + (user.displayName || user.email);
+  } else {
+    loginBtn.textContent = "Login Google";
+  }
+});
