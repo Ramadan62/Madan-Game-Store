@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
 import {
   getFirestore,
   collection,
@@ -57,19 +58,22 @@ function setBusy(value) {
   });
 }
 
+function showError(error) {
+  console.error(error);
+  status("Gagal: " + (error.code || error.message));
+  groupStatus("Periksa login Google, koneksi, dan Firestore Rules.");
+}
+
 function stopChatListener() {
   if (stopMessages) stopMessages();
   stopMessages = null;
 }
 
-function showError(error) {
-  console.error(error);
-  status("Gagal: " + (error.code || error.message));
-  groupStatus("Periksa koneksi, login, dan Firestore Rules.");
-}
-
+// Tombol login dan logout
 $("login").addEventListener("click", async () => {
   if (busy) return;
+
+  setBusy(true);
   try {
     if (currentUser) {
       await signOut(auth);
@@ -78,9 +82,29 @@ $("login").addEventListener("click", async () => {
     }
   } catch (error) {
     showError(error);
+  } finally {
+    setBusy(false);
   }
 });
 
+// Tombol + untuk membuka formulir pembuatan grup
+$("plusButton").addEventListener("click", () => {
+  $("createPanel").classList.remove("hidden");
+  $("groupName").focus();
+
+  if (!currentUser) {
+    groupStatus("Login Google terlebih dahulu sebelum membuat grup.");
+    status("Tekan Login dengan Google, lalu buat grup.");
+  } else {
+    status("Masukkan nama grup baru.");
+  }
+});
+
+$("cancelCreate").addEventListener("click", () => {
+  $("createPanel").classList.add("hidden");
+});
+
+// Login tidak lagi menyembunyikan tombol + atau formulir gabung
 onAuthStateChanged(auth, user => {
   currentUser = user;
 
@@ -88,26 +112,22 @@ onAuthStateChanged(auth, user => {
     ? "Login sebagai " + (user.displayName || user.email || "Pengguna")
     : "Belum login.";
 
-  $("login").textContent = user
-    ? "Keluar"
-    : "Login dengan Google";
+  $("login").textContent = user ? "Keluar" : "Login dengan Google";
 
-  $("groupPanel").classList.toggle("hidden", !user);
-
-  if (!user) {
+  if (user) {
+    status("Login berhasil. Kamu bisa membuat atau bergabung dengan grup.");
+  } else {
     stopChatListener();
     currentGroup = null;
     $("chatPanel").classList.add("hidden");
-    status("Login Google untuk menggunakan grup.");
-  } else {
-    status("Login berhasil. Buat grup atau masukkan kode grup.");
+    status("Kamu bisa melihat pilihan grup. Login diperlukan untuk mengobrol.");
   }
 });
 
 async function openGroup(groupId) {
   if (!currentUser) {
     status("Login Google terlebih dahulu.");
-    return;
+    return false;
   }
 
   stopChatListener();
@@ -118,7 +138,7 @@ async function openGroup(groupId) {
       db, "groups", groupId, "members", currentUser.uid
     );
 
-    // Daftarkan pengguna sebagai anggota dengan kode undangan.
+    // Buat keanggotaan sendiri menggunakan kode undangan.
     const memberSnapshot = await getDoc(memberRef);
 
     if (!memberSnapshot.exists()) {
@@ -131,7 +151,7 @@ async function openGroup(groupId) {
     const groupSnapshot = await getDoc(groupRef);
 
     if (!groupSnapshot.exists()) {
-      throw new Error("Grup tidak ditemukan. Periksa kode grup.");
+      throw new Error("Grup tidak ditemukan. Periksa kode undangan.");
     }
 
     const group = groupSnapshot.data();
@@ -145,9 +165,10 @@ async function openGroup(groupId) {
     $("currentCode").textContent = groupId;
     $("messages").replaceChildren();
     $("chatPanel").classList.remove("hidden");
+    $("createPanel").classList.add("hidden");
 
     groupStatus("Berhasil membuka grup.");
-    status("Terhubung ke grup.");
+    status("Terhubung ke " + currentGroup.name + ".");
 
     const messagesQuery = query(
       collection(db, "groups", groupId, "messages"),
@@ -182,20 +203,29 @@ async function openGroup(groupId) {
       box.scrollTop = box.scrollHeight;
     }, showError);
 
+    return true;
   } catch (error) {
     currentGroup = null;
     $("chatPanel").classList.add("hidden");
     showError(error);
+    return false;
   }
 }
 
+// Membuat grup
 $("createGroup").addEventListener("click", async () => {
-  if (!currentUser || busy) return;
+  if (busy) return;
+
+  if (!currentUser) {
+    groupStatus("Login Google terlebih dahulu, kemudian tekan Buat Grup lagi.");
+    $("login").click();
+    return;
+  }
 
   const name = $("groupName").value.trim();
 
   if (!name || name.length > 40) {
-    groupStatus("Isi nama grup maksimal 40 karakter.");
+    groupStatus("Isi nama grup, maksimal 40 karakter.");
     return;
   }
 
@@ -210,7 +240,6 @@ $("createGroup").addEventListener("click", async () => {
       createdAt: serverTimestamp()
     });
 
-    // Pemilik menjadi anggota pertama.
     await setDoc(
       doc(db, "groups", groupRef.id, "members", currentUser.uid),
       {
@@ -219,13 +248,12 @@ $("createGroup").addEventListener("click", async () => {
       }
     );
 
-    $("groupName").value = "";
-    await openGroup(groupRef.id);
+    const opened = await openGroup(groupRef.id);
 
-    groupStatus(
-      "Grup dibuat. Bagikan kode hanya kepada teman tepercaya."
-    );
-
+    if (opened) {
+      $("groupName").value = "";
+      groupStatus("Grup berhasil dibuat! Bagikan kode undangan kepada teman tepercaya.");
+    }
   } catch (error) {
     showError(error);
   } finally {
@@ -233,42 +261,48 @@ $("createGroup").addEventListener("click", async () => {
   }
 });
 
+// Bergabung dengan kode grup
 $("joinGroup").addEventListener("click", async () => {
-  if (!currentUser || busy) return;
+  if (busy) return;
+
+  if (!currentUser) {
+    groupStatus("Login Google terlebih dahulu untuk bergabung.");
+    $("login").click();
+    return;
+  }
 
   const code = $("groupCode").value.trim();
 
-  if (!code || code.length > 40) {
-    groupStatus("Masukkan kode grup yang valid.");
+  if (!code) {
+    groupStatus("Masukkan kode grup terlebih dahulu.");
     return;
   }
 
   setBusy(true);
-
   try {
-    await openGroup(code);
-    if (currentGroup) $("groupCode").value = "";
+    const opened = await openGroup(code);
+    if (opened) $("groupCode").value = "";
   } finally {
     setBusy(false);
   }
 });
 
+// Mengirim pesan
 $("messageForm").addEventListener("submit", async event => {
   event.preventDefault();
 
   if (!currentUser || !currentGroup || busy) return;
 
-  const messageText = $("messageText").value.trim();
+  const text = $("messageText").value.trim();
 
-  if (!messageText || messageText.length > 1000) return;
+  if (!text || text.length > 1000) return;
 
   setBusy(true);
-
   try {
     await addDoc(
       collection(db, "groups", currentGroup.id, "messages"),
       {
-        text: messageText,
+        text,
         uid: currentUser.uid,
         name: (currentUser.displayName || "Pengguna").slice(0, 100),
         createdAt: serverTimestamp()
@@ -276,8 +310,7 @@ $("messageForm").addEventListener("submit", async event => {
     );
 
     $("messageText").value = "";
-    status("Pesan terkirim.");
-
+    status("Pesan berhasil dikirim.");
   } catch (error) {
     showError(error);
   } finally {
@@ -285,6 +318,7 @@ $("messageForm").addEventListener("submit", async event => {
   }
 });
 
+// Menyalin kode undangan
 $("copyCode").addEventListener("click", async () => {
   if (!currentGroup) return;
 
@@ -292,10 +326,11 @@ $("copyCode").addEventListener("click", async () => {
     await navigator.clipboard.writeText(currentGroup.id);
     status("Kode grup berhasil disalin.");
   } catch {
-    status("Salin kode grup secara manual dari halaman.");
+    status("Salin kode secara manual: " + currentGroup.id);
   }
 });
 
+// Menutup chat
 $("leaveGroup").addEventListener("click", () => {
   stopChatListener();
   currentGroup = null;
