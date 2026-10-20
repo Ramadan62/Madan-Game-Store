@@ -1,128 +1,108 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#090d1a">
-  <meta name="description" content="Madan Game Store - katalog dan komunitas jual beli akun game.">
-  <title>Madan Game Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b16">
+  <meta name="description" content="Madan Game Store - katalog informasi akun game favorit.">
+  <title>Madan Game Store | Gaming Marketplace</title>
   <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-  
-<header>
-  <div class="wrap nav">
-    <a class="brand" href="#">
-      MADAN <span>GAME STORE</span>
+  <header class="navbar">
+    <a class="brand" href="#beranda">
+      <span class="brand-icon">M</span>
+      <span>MADAN<span class="brand-accent"> STORE</span>
+        <small>GAMING MARKETPLACE</small>
+      </span>
     </a>
+    <a class="nav-link" href="#katalog">Jelajahi Katalog ↗</a>
+  </header>
 
-    <button class="btn secondary" id="loginBtn">
-      Login Google
-    </button>
-  </div>
-
-  <div id="profileBox" style="display:none; align-items:center; gap:10px; margin:10px;">
-    <img id="profilePhoto" src="" alt="Foto profil"
-         style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
-
-    <div>
-      <strong id="profileName"></strong>
-      <br>
-      <small id="profileEmail"></small>
-    </div>
-  </div>
-</header>
-
-  <main class="wrap">
-    <section class="hero">
-      <span class="tag">🎮 GAMING MARKETPLACE</span>
-      <h1>Temukan akun game impianmu.</h1>
-      <p>Jelajahi katalog game, lihat detail penawaran, dan temukan komunitas gamer di Madan Game Store.</p>
-      <div class="hero-actions">
-        <a href="#katalog" class="btn">Jelajahi Katalog</a>
-        <a href="#posting" class="btn secondary">Pasang Iklan</a>
-      </div>
-    </section>
-
-    <section id="katalog">
-      <div class="section-head">
-        <h2>Katalog Akun Game</h2>
-        <span class="muted" id="count">0 produk</span>
-<!-- Tombol Menu Grup Madan -->
-<a href="groups.html" class="madan-group-button">
-  <span class="madan-group-icon">👥</span>
-  <span class="madan-group-text">
-    <strong>Grup Madan</strong>
-    <small>Buat grup dan ngobrol bersama teman</small>
-  </span>
-  <span class="madan-group-arrow">›</span>
-</a>
-   </div>
-      <input class="search" id="search" placeholder="🔎 Cari game atau nama akun..." aria-label="Cari produk">
-      <div class="filters" id="filters"></div>
-      <div class="grid" id="products"></div>
-    </section>
-
-    <section id="posting">
-      <div class="section-head"><h2>Pasang Iklan</h2></div>
-      <div class="panel">
-        <div class="notice">
-          Mode demo: iklan yang dibuat hanya tampil sementara di browser ini. Belum dipublikasikan kepada pengunjung lain. Login dan database akan disambungkan pada tahap berikutnya.
+  <main>
+    <section class="hero" id="beranda">
+      <div class="hero-content">
+        <span class="eyebrow"><span class="live-dot"></span> YOUR NEXT GAME STARTS HERE</span>
+        <h1>Temukan Akun<br>Game <span>Favoritmu.</span></h1>
+        <p class="hero-desc">
+          Jelajahi katalog akun game favoritmu dengan tampilan praktis,
+          informasi yang jelas, dan pilihan yang terus berkembang.
+        </p>
+        <a class="primary-button" href="#katalog">Lihat Katalog <span>↓</span></a>
+        <div class="hero-note">
+          <span>✦</span> Genshin Impact · HSR · ZZZ · dan lainnya
         </div>
-        <form id="postForm" class="post-form">
-          <div class="form-grid">
-            <div class="field">
-              <label for="game">Game</label>
-              <select id="game" required>
-                <option value="">Pilih game</option>
-                <option>Genshin Impact</option><option>Zenless Zone Zero</option>
-                <option>Honkai: Star Rail</option><option>Honkai Impact 3rd</option>
-                <option>Mobile Legends</option><option>Free Fire</option>
-                <option>PUBG Mobile</option><option>Game Lainnya</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="title">Judul iklan</label>
-              <input id="title" maxlength="70" placeholder="Contoh: Akun banyak karakter" required>
-            </div>
-            <div class="field">
-              <label for="price">Harga (Rupiah)</label>
-              <input id="price" type="number" min="1000" placeholder="Contoh: 250000" required>
-            </div>
-            <div class="field">
-              <label for="photo">Foto akun</label>
-              <input id="photo" type="file" accept="image/*">
-            </div>
-            <div class="field full">
-              <label for="description">Deskripsi akun</label>
-              <textarea id="description" maxlength="1200" placeholder="Tuliskan detail akun, server, karakter, dan lainnya." required></textarea>
-            </div>
-            <div class="field full"><button class="btn" type="submit">Buat Pratinjau Iklan</button></div>
-          </div>
-        </form>
-        <p id="postStatus" class="muted" aria-live="polite"></p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orb orb-one"></div>
+        <div class="orb orb-two"></div>
+        <div class="hero-symbol">M</div>
+        <div class="floating-tag tag-top">✦ GAME COLLECTION</div>
+        <div class="floating-tag tag-bottom">LEVEL UP YOUR JOURNEY</div>
       </div>
     </section>
 
-    <section>
-      <div class="panel">
-        <h2>Butuh bantuan?</h2>
-        <p class="muted">Hubungi admin Madan untuk bertanya mengenai katalog atau penawaran yang tersedia.</p>
-        <a class="btn" id="contactBtn" target="_blank" rel="noopener noreferrer" href="#">Chat Admin Madan di WhatsApp</a>
+    <section class="catalog section" id="katalog">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">EXPLORE COLLECTION</span>
+          <h2>Katalog <span>Game</span></h2>
+          <p>Pilih game, cari koleksi, dan lihat informasi yang tersedia.</p>
+        </div>
+        <div class="catalog-count"><span id="resultCount">0</span> KOLEKSI</div>
       </div>
+
+      <div class="toolbar">
+        <label class="search-box">
+          <span>⌕</span>
+          <input id="search" type="search" placeholder="Cari nama game atau akun..." aria-label="Cari katalog">
+        </label>
+        <select id="filter" aria-label="Filter game">
+          <option value="all">Semua Game</option>
+          <option value="Genshin Impact">Genshin Impact</option>
+          <option value="Honkai: Star Rail">Honkai: Star Rail</option>
+          <option value="Zenless Zone Zero">Zenless Zone Zero</option>
+          <option value="Honkai Impact 3rd">Honkai Impact 3rd</option>
+          <option value="Mobile Legends: Bang Bang">Mobile Legends</option>
+          <option value="Free Fire">Free Fire</option>
+          <option value="PUBG Mobile">PUBG Mobile</option>
+          <option value="Game Lainnya">Game Lainnya</option>
+        </select>
+      </div>
+
+      <div id="products" class="products-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="info-strip section">
+      <div class="info-icon">✦</div>
+      <div>
+        <h3>Informasi yang jelas, pilihan yang nyaman.</h3>
+        <p>Periksa detail dan harga yang tercantum sebelum menghubungi penjual.</p>
+      </div>
+    </section>
+
+    <section class="contact section" id="kontak">
+      <span class="eyebrow">LET'S CONNECT</span>
+      <h2>Punya pertanyaan?</h2>
+      <p>Hubungi pengelola Madan Game Store untuk bertanya tentang katalog.</p>
+      <a class="primary-button" href="https://wa.me/" target="_blank" rel="noopener noreferrer">
+        Hubungi Kami ↗
+      </a>
+      <p class="contact-note">Catatan: tambahkan nomor WhatsApp toko pada tautan tombol ini.</p>
     </section>
   </main>
 
-  <footer>
-    <div class="wrap">
-      <strong>Madan Game Store</strong>
-      <p>Marketplace komunitas game independen. Tidak berafiliasi dengan penerbit game yang tercantum.</p>
-      <p>Selalu periksa keamanan transaksi dan ketentuan penerbit game. Jangan pernah membagikan kata sandi atau kode OTP.</p>
-      <span>© <span id="year"></span> Madan Game Store</span>
-    </div>
+  <footer class="footer">
+    <a class="brand footer-brand" href="#beranda">
+      <span class="brand-icon">M</span>
+      <span>MADAN<span class="brand-accent"> STORE</span>
+        <small>GAMING MARKETPLACE</small>
+      </span>
+    </a>
+    <p>© <span id="year"></span> Madan Game Store. Dibuat untuk para gamer.</p>
+    <p class="disclaimer">Situs katalog independen, bukan situs resmi penerbit game.</p>
   </footer>
-  <a class="whatsapp" id="waFloat" href="#" target="_blank" rel="noopener noreferrer">WhatsApp Admin</a>
-  <script src="script.js"></script>
-  <script type="module" src="firebase.js?v=3"></script>
 </body>
-</html>
+  </html>
