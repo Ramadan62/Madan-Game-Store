@@ -1,52 +1,322 @@
-:root {
-  --bg: #090d1a; --panel: #11182b; --panel2: #18233b;
-  --blue: #55a6ff; --cyan: #63e5ed; --text: #f4f7ff;
-  --muted: #aab6cf; --line: #293652;
+
+/* ========================================
+   MADAN GAME STORE - STYLE UTAMA
+   ======================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-* { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, Arial, sans-serif; background: var(--bg); color: var(--text); }
-button, input, select, textarea { font: inherit; }
-button { cursor: pointer; }
-a { color: inherit; text-decoration: none; }
-.wrap { width: min(1100px, 92%); margin: auto; }
-header { position: sticky; top: 0; z-index: 5; background: #090d1aee; backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
-.nav { min-height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-.brand { font-weight: 900; font-size: 19px; letter-spacing: -.5px; }
-.brand span { color: var(--cyan); }
-.btn { display: inline-block; border: 0; border-radius: 11px; padding: 11px 15px; background: linear-gradient(110deg, var(--blue), var(--cyan)); color: #071222; font-weight: 800; }
-.btn.secondary { background: var(--panel2); border: 1px solid var(--line); color: var(--text); }
-.hero { margin-top: 28px; padding: 38px 24px; border: 1px solid #31486c; border-radius: 24px; background: radial-gradient(ellipse at 85% 15%, #2769a955, transparent 42%), linear-gradient(135deg, #172441, #101529 65%, #12313b); overflow: hidden; }
-.tag { display: inline-block; border: 1px solid #42658c; color: var(--cyan); border-radius: 30px; padding: 6px 11px; font-size: 12px; font-weight: 700; }
-h1 { max-width: 650px; font-size: clamp(32px, 7vw, 54px); line-height: 1.1; margin: 18px 0 12px; }
-.hero p, .muted { color: var(--muted); line-height: 1.7; }
-.hero p { max-width: 560px; }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
-section { margin-top: 38px; }
-.section-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 17px; }
-h2 { font-size: 23px; margin: 0; } h3 { margin: 0 0 8px; font-size: 17px; }
-.search { width: 100%; background: var(--panel); color: white; border: 1px solid var(--line); border-radius: 12px; padding: 13px 15px; outline-color: var(--blue); }
-.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 20px; }
-.chip { padding: 9px 12px; border-radius: 30px; background: var(--panel); color: var(--muted); border: 1px solid var(--line); }
-.chip.active { background: #23436a; color: white; border-color: var(--blue); }
-.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; }
-.card { min-width: 0; border-radius: 16px; background: var(--panel); border: 1px solid var(--line); overflow: hidden; }
-.cover { height: 145px; display: grid; place-items: center; background: radial-gradient(circle at 70% 20%, #55a6ff55, transparent 45%), linear-gradient(135deg, #202e4b, #111a2b); font-size: 42px; overflow: hidden; }
-.cover img { width: 100%; height: 100%; object-fit: cover; }
-.card-body { padding: 14px; } .card-body p { color: var(--muted); font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
-.price { font-weight: 900; color: var(--cyan); margin: 12px 0; } .card .btn { width: 100%; }
-.empty { padding: 28px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 14px; }
-.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 17px; padding: 20px; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
-.field { display: grid; gap: 7px; } .field.full { grid-column: 1 / -1; }
-.field label { font-size: 13px; color: var(--muted); }
-.field input, .field select, .field textarea { width: 100%; background: #0b1222; border: 1px solid var(--line); color: white; border-radius: 10px; padding: 12px; }
-.field textarea { min-height: 95px; resize: vertical; }
-.notice { background: #18233b; border-radius: 12px; padding: 13px; font-size: 13px; line-height: 1.7; color: var(--muted); }
-.post-form { margin-top: 18px; }
-footer { margin-top: 50px; padding: 26px 0 90px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; line-height: 1.8; }
-.whatsapp { position: fixed; bottom: 18px; right: 16px; z-index: 6; border-radius: 30px; padding: 13px 17px; background: #25d366; color: #062914; font-weight: 900; box-shadow: 0 8px 30px #0007; }
-@media (max-width: 760px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cover { height: 120px; } .hero { padding: 29px 19px; } .brand { font-size: 16px; } .nav .btn { padding: 9px 11px; font-size: 13px; } }
-@media (max-width: 390px) { .grid { grid-template-columns: 1fr; } .cover { height: 175px; } .form-grid { grid-template-columns: 1fr; } .field.full { grid-column: auto; } }
+
+:root {
+  --bg: #0b1020;
+  --card: #151d32;
+  --card-light: #1c2740;
+  --text: #f5f7ff;
+  --muted: #aab5cc;
+  --primary: #7c5cff;
+  --primary-hover: #6545ed;
+  --border: #2b3652;
+  --success: #39d98a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* HEADER */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 16px 20px;
+  background: rgba(11, 16, 32, 0.96);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+
+header h1 {
+  font-size: clamp(22px, 5vw, 32px);
+  font-weight: 800;
+  color: #ffffff;
+  overflow-wrap: anywhere;
+}
+
+header p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* LINK DAN TOMBOL */
+
+button,
+.btn {
+  display: inline-block;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 10px;
+  background: var(--primary);
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover,
+.btn:hover {
+  background: var(--primary-hover);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* KONTEN UTAMA */
+
+main {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 24px 16px 50px;
+}
+
+section {
+  margin-bottom: 32px;
+}
+
+section h2 {
+  font-size: 23px;
+  margin-bottom: 14px;
+}
+
+p {
+  overflow-wrap: anywhere;
+}
+
+/* AREA KATALOG */
+
+#products {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+/* KARTU PRODUK */
+
+.product,
+.product-card,
+#products article {
+  min-width: 0;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+}
+
+/* GAMBAR PRODUK */
+
+.cover {
+  width: 100%;
+  height: 160px;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background: #171923;
+}
+
+.cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.25s ease;
+}
+
+.cover img:hover {
+  transform: scale(1.04);
+}
+
+/* KONTEN KARTU */
+
+.product h3,
+.product-card h3,
+#products article h3 {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.4;
+  padding: 12px 12px 4px;
+  overflow-wrap: anywhere;
+}
+
+.product p,
+.product-card p,
+#products article p {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 4px 12px;
+}
+
+.product .price,
+.product-card .price {
+  color: var(--success);
+  font-size: 17px;
+  font-weight: bold;
+}
+
+/* FORM TAMBAH PRODUK */
+
+form {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  padding: 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+label {
+  display: block;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  outline: none;
+  background: #0e1628;
+  color: var(--text);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary);
+}
+
+input[type="file"] {
+  padding: 9px;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+}
+
+/* PESAN STATUS */
+
+#status,
+.status,
+#message {
+  color: var(--muted);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+/* NAVIGASI DAN FOOTER */
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+nav a {
+  color: #d7d0ff;
+}
+
+footer {
+  padding: 24px 16px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* TAMPILAN HP KECIL */
+
+@media (max-width: 380px) {
+  #products {
+    grid-template-columns: 1fr;
+  }
+
+  .cover {
+    height: 200px;
+  }
+
+  header {
+    padding: 12px;
+  }
+
+  main {
+    padding: 18px 12px 36px;
+  }
+}
+
+/* TAMPILAN TABLET DAN KOMPUTER */
+
+@media (min-width: 700px) {
+  #products {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .cover {
+    height: 190px;
+  }
+
+  main {
+    padding: 32px 24px 60px;
+  }
+}
+
+@media (min-width: 1000px) {
+  #products {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  }
 
 /* Tombol Grup Madan */
 .madan-group-button {
