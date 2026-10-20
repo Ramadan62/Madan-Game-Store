@@ -93,10 +93,6 @@ const adminMessage = encodeURIComponent("Halo Madan, saya ingin bertanya tentang
 document.getElementById("contactBtn").href = `https://wa.me/${ADMIN_NUMBER}?text=${adminMessage}`;
 document.getElementById("waFloat").href = `https://wa.me/${ADMIN_NUMBER}?text=${encodeURIComponent("Halo Madan!")}`;
 
-document.getElementById("loginBtn").addEventListener("click", () => {
-  alert("Login Google belum aktif. Firebase akan kita hubungkan pada tahap berikutnya.");
-});
-
 document.getElementById("photo").addEventListener("change", event => {
   const file = event.target.files[0];
   uploadedPhoto = "";
