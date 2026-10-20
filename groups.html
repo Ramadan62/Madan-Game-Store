@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d1a">
   <title>Grup Madan</title>
 
   <style>
@@ -11,32 +12,37 @@
 
     body {
       margin: 0;
-      padding: 20px;
+      padding: 18px;
       font-family: Arial, sans-serif;
       background: #090d1a;
       color: #f4f7ff;
     }
 
-    main {
-      max-width: 650px;
-      margin: auto;
+    main { max-width: 650px; margin: auto; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
+
+    h1 { font-size: 25px; margin: 0; color: #63e5ed; }
+    h2 { font-size: 20px; }
+    .subtitle, small, #status { color: #aab6cf; }
 
     .panel {
       background: #11182b;
       border: 1px solid #293652;
-      border-radius: 14px;
+      border-radius: 15px;
       padding: 16px;
-      margin: 15px 0;
+      margin: 14px 0;
     }
-
-    h1 { color: #63e5ed; }
 
     input, button {
       width: 100%;
       padding: 12px;
       margin: 6px 0;
-      border-radius: 9px;
+      border-radius: 10px;
       font-size: 15px;
     }
 
@@ -54,10 +60,21 @@
       cursor: pointer;
     }
 
-    button:disabled {
-      opacity: .5;
-      cursor: wait;
+    button:disabled { opacity: .5; }
+
+    .icon-btn {
+      width: 46px;
+      height: 46px;
+      flex: 0 0 46px;
+      font-size: 28px;
+      padding: 0;
+      border-radius: 50%;
+      margin: 0;
     }
+
+    .secondary { background: #203958; color: #eaf4ff; }
+    .row { display: flex; gap: 10px; }
+    .hidden { display: none !important; }
 
     #messages {
       height: 300px;
@@ -75,56 +92,67 @@
       border-radius: 9px;
     }
 
-    small, #status { color: #aab6cf; }
-    .hidden { display: none; }
+    #status, #groupStatus, code { overflow-wrap: anywhere; }
     a { color: #63e5ed; }
-    code { overflow-wrap: anywhere; }
   </style>
 </head>
 
 <body>
 <main>
-  <h1>🎮 Grup Madan</h1>
-  <p>Tempat berkumpul dan mengobrol bersama komunitas Madan Game Store.</p>
+  <div class="topbar">
+    <div style="flex:1">
+      <h1>🎮 Grup Madan</h1>
+    </div>
+    <button id="plusButton" class="icon-btn"
+      aria-label="Buat grup" title="Buat grup baru">+</button>
+  </div>
+
+  <p class="subtitle">
+    Tempat berkumpul dan mengobrol bersama komunitas Madan Game Store.
+  </p>
 
   <section class="panel">
-    <p id="account">Belum login.</p>
+    <p id="account">Memeriksa login...</p>
     <button id="login">Login dengan Google</button>
   </section>
 
-  <section id="groupPanel" class="panel hidden">
-    <h2>Buat grup</h2>
+  <section id="createPanel" class="panel hidden">
+    <h2>＋ Buat grup baru</h2>
+    <p>Masukkan nama grup yang ingin kamu buat.</p>
     <input id="groupName" maxlength="40"
-      placeholder="Nama grup, contoh: Gamer Madan">
-    <button id="createGroup">Buat Grup Baru</button>
+      placeholder="Contoh: Gamer Madan">
+    <div class="row">
+      <button id="createGroup">Buat Grup</button>
+      <button id="cancelCreate" class="secondary">Batal</button>
+    </div>
+  </section>
 
+  <section id="joinPanel" class="panel">
     <h2>Gabung grup</h2>
-    <input id="groupCode" maxlength="40"
+    <p>Masukkan kode undangan grup.</p>
+    <input id="groupCode" maxlength="100"
       placeholder="Masukkan kode grup">
     <button id="joinGroup">Gabung Grup</button>
-    <p id="groupStatus"></p>
+    <p id="groupStatus" role="status"></p>
   </section>
 
   <section id="chatPanel" class="panel hidden">
     <h2 id="chatTitle">Chat Grup</h2>
     <p>Kode grup: <code id="currentCode"></code></p>
-    <button id="copyCode">Salin Kode Grup</button>
-
+    <button id="copyCode" class="secondary">Salin Kode Grup</button>
     <div id="messages" aria-live="polite"></div>
-
     <form id="messageForm">
       <input id="messageText" maxlength="1000"
         placeholder="Tulis pesan..." required>
       <button id="sendButton" type="submit">Kirim Pesan</button>
     </form>
-
-    <button id="leaveGroup">Tutup Chat</button>
+    <button id="leaveGroup" class="secondary">Tutup Chat</button>
   </section>
 
-  <p id="status" role="status">Memuat Firebase...</p>
+  <p id="status" role="status">Memuat fitur grup...</p>
   <p><a href="index.html">← Kembali ke Madan Game Store</a></p>
 </main>
 
-<script type="module" src="groups.js?v=2"></script>
+<script type="module" src="groups.js?v=3"></script>
 </body>
-  </html>
+</html>
