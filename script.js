@@ -137,15 +137,3 @@ document.getElementById("postForm").addEventListener("submit", event => {
 document.getElementById("year").textContent = new Date().getFullYear();
 renderFilters();
 renderProducts();
-
-const loginBtn = document.getElementById("loginBtn");
-
-if (loginBtn) {
-  loginBtn.addEventListener("click", () => {
-    if (typeof window.loginGoogle === "function") {
-      window.loginGoogle();
-    } else {
-      alert("Firebase belum siap. Muat ulang halaman.");
-    }
-  });
-                                                     }
