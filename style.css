@@ -47,3 +47,57 @@ footer { margin-top: 50px; padding: 26px 0 90px; border-top: 1px solid var(--lin
 .whatsapp { position: fixed; bottom: 18px; right: 16px; z-index: 6; border-radius: 30px; padding: 13px 17px; background: #25d366; color: #062914; font-weight: 900; box-shadow: 0 8px 30px #0007; }
 @media (max-width: 760px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cover { height: 120px; } .hero { padding: 29px 19px; } .brand { font-size: 16px; } .nav .btn { padding: 9px 11px; font-size: 13px; } }
 @media (max-width: 390px) { .grid { grid-template-columns: 1fr; } .cover { height: 175px; } .form-grid { grid-template-columns: 1fr; } .field.full { grid-column: auto; } }
+
+/* Tombol Grup Madan */
+.madan-group-button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 100px;
+  padding: 20px;
+  margin: 18px 0;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #11182b, #203958);
+  border: 1px solid #55a6ff;
+  border-radius: 18px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.madan-group-button:hover {
+  border-color: #63e5ed;
+}
+
+.madan-group-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  font-size: 44px;
+  background: #183b52;
+  border-radius: 16px;
+}
+
+.madan-group-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.madan-group-text strong {
+  font-size: 19px;
+}
+
+.madan-group-text small {
+  color: #aab6cf;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.madan-group-arrow {
+  font-size: 34px;
+  color: #63e5ed;
+    }
