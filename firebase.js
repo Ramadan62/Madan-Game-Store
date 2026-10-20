@@ -19,6 +19,11 @@ const firebaseConfig = {
   measurementId: "G-G9CZBZ8E97"
 };
 
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+const loginBtn = document.getElementById("loginBtn");
 const profileBox = document.getElementById("profileBox");
 const profilePhoto = document.getElementById("profilePhoto");
 const profileName = document.getElementById("profileName");
@@ -32,12 +37,12 @@ loginBtn.addEventListener("click", async () => {
       await signInWithRedirect(auth, provider);
     }
   } catch (error) {
-    alert("Terjadi kesalahan: " + error.message);
+    alert("Login gagal: " + error.code + " — " + error.message);
   }
 });
 
 getRedirectResult(auth).catch(error => {
-  alert("Login gagal: " + error.message);
+  alert("Login gagal: " + error.code + " — " + error.message);
 });
 
 onAuthStateChanged(auth, user => {
