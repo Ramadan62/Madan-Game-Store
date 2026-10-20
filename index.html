@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d1a">
+  <meta name="description" content="Madan Game Store - katalog dan komunitas jual beli akun game.">
+  <title>Madan Game Store</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#">MADAN <span>GAME STORE</span></a>
+      <button class="btn secondary" id="loginBtn">Login Google</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <span class="tag">🎮 GAMING MARKETPLACE</span>
+      <h1>Temukan akun game impianmu.</h1>
+      <p>Jelajahi katalog game, lihat detail penawaran, dan temukan komunitas gamer di Madan Game Store.</p>
+      <div class="hero-actions">
+        <a href="#katalog" class="btn">Jelajahi Katalog</a>
+        <a href="#posting" class="btn secondary">Pasang Iklan</a>
+      </div>
+    </section>
+
+    <section id="katalog">
+      <div class="section-head">
+        <h2>Katalog Akun Game</h2>
+        <span class="muted" id="count">0 produk</span>
+      </div>
+      <input class="search" id="search" placeholder="🔎 Cari game atau nama akun..." aria-label="Cari produk">
+      <div class="filters" id="filters"></div>
+      <div class="grid" id="products"></div>
+    </section>
+
+    <section id="posting">
+      <div class="section-head"><h2>Pasang Iklan</h2></div>
+      <div class="panel">
+        <div class="notice">
+          Mode demo: iklan yang dibuat hanya tampil sementara di browser ini. Belum dipublikasikan kepada pengunjung lain. Login dan database akan disambungkan pada tahap berikutnya.
+        </div>
+        <form id="postForm" class="post-form">
+          <div class="form-grid">
+            <div class="field">
+              <label for="game">Game</label>
+              <select id="game" required>
+                <option value="">Pilih game</option>
+                <option>Genshin Impact</option><option>Zenless Zone Zero</option>
+                <option>Honkai: Star Rail</option><option>Honkai Impact 3rd</option>
+                <option>Mobile Legends</option><option>Free Fire</option>
+                <option>PUBG Mobile</option><option>Game Lainnya</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="title">Judul iklan</label>
+              <input id="title" maxlength="70" placeholder="Contoh: Akun banyak karakter" required>
+            </div>
+            <div class="field">
+              <label for="price">Harga (Rupiah)</label>
+              <input id="price" type="number" min="1000" placeholder="Contoh: 250000" required>
+            </div>
+            <div class="field">
+              <label for="photo">Foto akun</label>
+              <input id="photo" type="file" accept="image/*">
+            </div>
+            <div class="field full">
+              <label for="description">Deskripsi akun</label>
+              <textarea id="description" maxlength="1200" placeholder="Tuliskan detail akun, server, karakter, dan lainnya." required></textarea>
+            </div>
+            <div class="field full"><button class="btn" type="submit">Buat Pratinjau Iklan</button></div>
+          </div>
+        </form>
+        <p id="postStatus" class="muted" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <h2>Butuh bantuan?</h2>
+        <p class="muted">Hubungi admin Madan untuk bertanya mengenai katalog atau penawaran yang tersedia.</p>
+        <a class="btn" id="contactBtn" target="_blank" rel="noopener noreferrer" href="#">Chat Admin Madan di WhatsApp</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <strong>Madan Game Store</strong>
+      <p>Marketplace komunitas game independen. Tidak berafiliasi dengan penerbit game yang tercantum.</p>
+      <p>Selalu periksa keamanan transaksi dan ketentuan penerbit game. Jangan pernah membagikan kata sandi atau kode OTP.</p>
+      <span>© <span id="year"></span> Madan Game Store</span>
+    </div>
+  </footer>
+  <a class="whatsapp" id="waFloat" href="#" target="_blank" rel="noopener noreferrer">WhatsApp Admin</a>
+  <script src="script.js"></script>
+</body>
+</html>
