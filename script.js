@@ -6,16 +6,36 @@ const categories = [
 ];
 
 const sampleProducts = [
-  {game:"Genshin Impact",title:"Contoh Akun Genshin",price:250000,description:"Contoh katalog. Ganti dengan detail akun asli."},
-  {game:"Zenless Zone Zero",title:"Contoh Akun ZZZ",price:180000,description:"Contoh katalog untuk menguji tampilan."},
-  {game:"Honkai: Star Rail",title:"Contoh Akun HSR",price:200000,description:"Ini produk contoh, bukan penawaran sungguhan."},
-  {game:"Honkai Impact 3rd",title:"Contoh Akun HI3",price:150000,description:"Tambahkan detail akun yang benar nantinya."},
-  {game:"Mobile Legends",title:"Contoh Akun MLBB",price:100000,description:"Contoh tampilan kartu produk."},
-  {game:"Free Fire",title:"Contoh Akun Free Fire",price:120000,description:"Harga dan data hanya untuk demo."},
-  {game:"PUBG Mobile",title:"Contoh Akun PUBG",price:175000,description:"Ganti dengan informasi penawaran sebenarnya."},
-  {game:"Game Lainnya",title:"Game Favorit Lainnya",price:50000,description:"Kategori untuk game tambahan."}
-];
-
+  
+{
+  game: "Genshin Impact",
+  title: "Akun Genshin Impact",
+  price: 500000,
+  description: "Akun Genshin Impact siap dimainkan.",
+  photo: "genshin.png"
+},
+{
+  game: "Honkai: Star Rail",
+  title: "Akun Honkai: Star Rail",
+  price: 500000,
+  description: "Akun Honkai: Star Rail siap dimainkan.",
+  photo: "hsr.png"
+},
+{
+  game: "Zenless Zone Zero",
+  title: "Akun Zenless Zone Zero",
+  price: 500000,
+  description: "Akun Zenless Zone Zero siap dimainkan.",
+  photo: "zzz.png"
+},
+{
+  game: "Honkai Impact 3rd",
+  title: "Akun Honkai Impact 3rd",
+  price: 500000,
+  description: "Akun Honkai Impact 3rd siap dimainkan.",
+  photo: "hi3.png"
+}
+  ];
 let products = [...sampleProducts];
 let activeCategory = "Semua";
 let uploadedPhoto = "";
