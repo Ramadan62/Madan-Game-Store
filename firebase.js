@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebas
 import {
   getAuth,
   GoogleAuthProvider,
-  signInWithRedirect,
+  signInWithPopup,
   getRedirectResult,
   onAuthStateChanged,
   signOut
@@ -34,15 +34,13 @@ loginBtn.addEventListener("click", async () => {
     if (auth.currentUser) {
       await signOut(auth);
     } else {
-      await signInWithRedirect(auth, provider);
+      await signInWithPopup(auth, provider);
     }
   } catch (error) {
     alert("Login gagal: " + error.code + " — " + error.message);
   }
 });
 
-getRedirectResult(auth).catch(error => {
-  alert("Login gagal: " + error.code + " — " + error.message);
 });
 
 onAuthStateChanged(auth, user => {
